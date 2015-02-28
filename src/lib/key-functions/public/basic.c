@@ -11,6 +11,7 @@
 #include "../../../keyboard/layout.h"
 #include "../public.h"
 #include "../private.h"
+#include "../../../lib/usb/usage-page/keyboard--short-names.h"
 
 // ----------------------------------------------------------------------------
 
@@ -546,6 +547,40 @@ void kbfun_layer_sticky_10  (void) {
  */
 void kbfun_layer_pop_10(void) {
 	layer_pop(10);
+}
+
+/*
+ * [name]
+ *   SpaceFn Layer push #1
+ *
+ * [description]
+ * SpaceFn - Space operating as function when held and chorded with another
+ * key.  If tapped on it's own sends a normal space press on release.
+ */
+void kbfun_spacefn_layer_push_1(void) {
+  main_arg_spacefn_is_pressed = true;
+  main_arg_spacefn_is_space = true;
+	layer_push(1);
+}
+
+/*
+ * [name]
+ *   SpaceFn Layer pop #10
+ *
+ * [description]
+ *   Pop the layer element created by the corresponding "layer push" function
+ *   out of the layer stack (no matter where it is in the stack, without
+ *   touching any other elements)
+ */
+void kbfun_spacefn_layer_pop_1(void) {
+  if(main_arg_spacefn_is_space) {
+    /*SpaceFn was tapped without chording so send a space press*/
+    /*AA TODO Test if this even vaguely works*/
+    _kbfun_press_release(true, _space);
+  }
+  main_arg_spacefn_is_pressed = false;
+  main_arg_spacefn_is_space = false;
+	layer_pop(1);
 }
 
 /* ----------------------------------------------------------------------------

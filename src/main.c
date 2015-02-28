@@ -45,7 +45,8 @@ bool    main_arg_is_pressed;
 bool    main_arg_was_pressed;
 bool    main_arg_any_non_trans_key_pressed;
 bool    main_arg_trans_key_pressed;
-
+bool    main_arg_spacefn_is_pressed; //Is SpaceFn currently held down?
+bool    main_arg_spacefn_is_space;   //Should SpaceFn send space when released?
 // ----------------------------------------------------------------------------
 
 /*
