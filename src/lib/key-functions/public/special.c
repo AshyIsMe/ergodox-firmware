@@ -161,6 +161,21 @@ void kbfun_mediakey_press_release(void) {
 	_kbfun_mediakey_press_release(IS_PRESSED, keycode);
 }
 
+/*
+ * [name]
+ *  SpaceFn Release
+ *
+ * [description]
+ *   Clears the space press if necessary after spacefn is released.
+ *
+ */
+void kbfun_spacefn_release(void){
+  if(main_arg_spacefn_was_pressed && main_arg_spacefn_is_space) {
+      _kbfun_press_release(false, KEY_Spacebar);
+      main_arg_spacefn_is_space = false;
+      main_arg_spacefn_was_pressed = false;
+  }
+}
 /* ----------------------------------------------------------------------------
  * ------------------------------------------------------------------------- */
 

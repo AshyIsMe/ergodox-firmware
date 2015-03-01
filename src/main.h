@@ -41,6 +41,7 @@
 	extern bool    main_arg_any_non_trans_key_pressed;
 	extern bool    main_arg_trans_key_pressed;
   extern bool    main_arg_spacefn_is_pressed; //Is SpaceFn currently held down?
+  extern bool    main_arg_spacefn_was_pressed; //was SpaceFn held down?
   extern bool    main_arg_spacefn_is_space;   //Should SpaceFn send space when released?
 	// --------------------------------------------------------------------
 

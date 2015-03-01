@@ -39,6 +39,11 @@
 void kbfun_press_release(void) {
 	if (!main_arg_trans_key_pressed)
 		main_arg_any_non_trans_key_pressed = true;
+  if (main_arg_spacefn_is_pressed) {
+    // If any key is pressed while spacefn is held then don't generate space 
+    // when spacefn is released.
+    main_arg_spacefn_is_space = false;
+  }
 	kbfun_press_release_preserve_sticky();
 }
 
@@ -159,6 +164,25 @@ static void layer_sticky(uint8_t local_id) {
 static void layer_pop(uint8_t local_id) {
 	main_layers_pop_id(layer_ids[local_id]);
 	layer_ids[local_id] = 0;
+}
+
+static void spacefn_layer_push(uint8_t local_id) {
+  main_arg_spacefn_is_pressed = true;
+  main_arg_spacefn_was_pressed = false;
+  main_arg_spacefn_is_space = true;
+
+  layer_push(local_id);
+}
+
+static void spacefn_layer_pop(uint8_t local_id) {
+  if(main_arg_spacefn_is_space) {
+    /*SpaceFn was tapped without chording so send a space press*/
+    _kbfun_press_release(true, _space);
+  }
+  main_arg_spacefn_is_pressed = false;
+  main_arg_spacefn_was_pressed = true;
+
+	layer_pop(local_id);
 }
 
 /*
@@ -558,14 +582,12 @@ void kbfun_layer_pop_10(void) {
  * key.  If tapped on it's own sends a normal space press on release.
  */
 void kbfun_spacefn_layer_push_1(void) {
-  main_arg_spacefn_is_pressed = true;
-  main_arg_spacefn_is_space = true;
-	layer_push(1);
+  spacefn_layer_push(1);
 }
 
 /*
  * [name]
- *   SpaceFn Layer pop #10
+ *   SpaceFn Layer pop #1
  *
  * [description]
  *   Pop the layer element created by the corresponding "layer push" function
@@ -573,15 +595,27 @@ void kbfun_spacefn_layer_push_1(void) {
  *   touching any other elements)
  */
 void kbfun_spacefn_layer_pop_1(void) {
-  if(main_arg_spacefn_is_space) {
-    /*SpaceFn was tapped without chording so send a space press*/
-    /*AA TODO Test if this even vaguely works*/
-    _kbfun_press_release(true, _space);
-  }
-  main_arg_spacefn_is_pressed = false;
-  main_arg_spacefn_is_space = false;
-	layer_pop(1);
+	spacefn_layer_pop(1);
 }
+
+void kbfun_spacefn_layer_push_2(void) { spacefn_layer_push(2); }
+void kbfun_spacefn_layer_pop_2(void) { spacefn_layer_pop(2); }
+void kbfun_spacefn_layer_push_3(void) { spacefn_layer_push(3); }
+void kbfun_spacefn_layer_pop_3(void) { spacefn_layer_pop(3); }
+void kbfun_spacefn_layer_push_4(void) { spacefn_layer_push(4); }
+void kbfun_spacefn_layer_pop_4(void) { spacefn_layer_pop(4); }
+void kbfun_spacefn_layer_push_5(void) { spacefn_layer_push(5); }
+void kbfun_spacefn_layer_pop_5(void) { spacefn_layer_pop(5); }
+void kbfun_spacefn_layer_push_6(void) { spacefn_layer_push(6); }
+void kbfun_spacefn_layer_pop_6(void) { spacefn_layer_pop(6); }
+void kbfun_spacefn_layer_push_7(void) { spacefn_layer_push(7); }
+void kbfun_spacefn_layer_pop_7(void) { spacefn_layer_pop(7); }
+void kbfun_spacefn_layer_push_8(void) { spacefn_layer_push(8); }
+void kbfun_spacefn_layer_pop_8(void) { spacefn_layer_pop(8); }
+void kbfun_spacefn_layer_push_9(void) { spacefn_layer_push(9); }
+void kbfun_spacefn_layer_pop_9(void) { spacefn_layer_pop(9); }
+void kbfun_spacefn_layer_push_10(void) { spacefn_layer_push(10); }
+void kbfun_spacefn_layer_pop_10(void) { spacefn_layer_pop(10); }
 
 /* ----------------------------------------------------------------------------
  * ------------------------------------------------------------------------- */

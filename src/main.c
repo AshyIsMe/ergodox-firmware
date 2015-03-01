@@ -46,6 +46,7 @@ bool    main_arg_was_pressed;
 bool    main_arg_any_non_trans_key_pressed;
 bool    main_arg_trans_key_pressed;
 bool    main_arg_spacefn_is_pressed; //Is SpaceFn currently held down?
+bool    main_arg_spacefn_was_pressed; //was SpaceFn held down?
 bool    main_arg_spacefn_is_space;   //Should SpaceFn send space when released?
 // ----------------------------------------------------------------------------
 
@@ -120,6 +121,11 @@ int main(void) {
 		usb_keyboard_send();
 		usb_extra_consumer_send();
 		_delay_ms(MAKEFILE_DEBOUNCE_TIME);
+
+        // Release space if it was pressed by spacefn.
+        // We do this after sending the keys as spacefn generates the space push 
+        // if necessary on key release instead of key press.
+        kbfun_spacefn_release();
 
 		// update LEDs
 		if (keyboard_leds & (1<<0)) { kb_led_num_on(); }
